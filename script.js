@@ -2,26 +2,33 @@ function setup() {
   input = document.getElementById('input')
   outputDate = document.getElementById('output_date')
   outputNote = document.getElementById('output_note')
+  userLang = navigator.language || navigator.userLanguage || 'de-DE'; 
   
   patterns = [
-    [/(?<year_dual>\d{2})(?<month_letter>[A-La-l])\d{10}/, 'Petzl current'],
-    [/(?<year_dual>\d{2})(?<day_of_year>\d{3})\w{2}\d{4}/, 'Petzl old'],
+    [/^(?<year_dual>\d{2})(?<month_letter>[A-L])\d{10}/, 'Petzl current'],
+    [/^(?<year_dual>\d{2})(?<day_of_year>\d{3})[A-Z]{2}\d{4}/, 'Petzl old'],
+    [/^(?<year_dual>\d{2})(?<day_of_year>\d{3})\d{4}[ABMC]/, 'DMM'],
   ]
   input.addEventListener('input', parse);
+  parse()
 }
 
 function parse() {
   patterns.forEach(pattern => {
-    match = input.value.match(pattern[0])
+    match = input.value.trim().toUpperCase().match(pattern[0])
     if(match != null) {
       date = createDate(match.groups)
       manufacturer = pattern[1]
-      outputDate.innerHTML = date
-      outputNote.innerHTML = manufacturer
+      outputDate.innerHTML = "Manufacturing date: <br /><strong>" +
+        date.toLocaleDateString(userLang) + "</strong><br /><strong>" +
+        date.toISOString().slice(0, 10) + "</strong>"
+      outputNote.innerHTML = "Serial number style: <br /><strong>" + manufacturer + "</strong>"
       console.log(date)
       console.log(manufacturer)
       return;
     }
+    outputDate.innerHTML = ""
+    outputNote.innerHTML = ""
   });
 }
 
