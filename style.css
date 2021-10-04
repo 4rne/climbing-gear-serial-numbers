@@ -7,3 +7,12 @@ body {
   display: flex;
   justify-content: center;
 }
+
+input {
+  font-size: 16pt;
+  padding: 1em;
+  margin-top: 3em;
+  margin-bottom: 1em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
