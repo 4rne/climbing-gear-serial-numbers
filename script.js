@@ -14,7 +14,7 @@ function setup() {
 }
 
 function parse() {
-  patterns.forEach(pattern => {
+  for(let pattern of patterns) {
     match = input.value.trim().toUpperCase().match(pattern[0])
     if(match != null) {
       date = createDate(match.groups)
@@ -26,10 +26,11 @@ function parse() {
       console.log(date)
       console.log(manufacturer)
       return;
-    }
+    } else {
     outputDate.innerHTML = ""
     outputNote.innerHTML = ""
-  });
+    }
+  };
 }
 
 function createDate(groups) {
